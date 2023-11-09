@@ -1,3 +1,28 @@
+// Sounds
+const missSound = new Audio()
+missSound.src = '/assets/miss-sound.mp3'
+missSound.volume = 0.1
+const sunkSound = new Audio()
+sunkSound.src = '/assets/sunk-sound.mp3'
+sunkSound.volume = 0.05
+const hitSound = new Audio()
+hitSound.src = '/assets/hit-sound.mp3'
+hitSound.volume = 0.2
+const placeSound = new Audio()
+placeSound.src = '/assets/place-sound.mp3'
+const victoryMusic = new Audio()
+victoryMusic.src = '/assets/victory-music.mp3'
+victoryMusic.volume = 0.05
+const defeatMusic = new Audio()
+defeatMusic.src = '/assets/defeat-music.mp3'
+defeatMusic.volume = 0.1
+const startGameSound = new Audio()
+startGameSound.src = '/assets/start-game-sound.mp3'
+startGameSound.volume = 0.1
+const backgroundMusic = new Audio()
+backgroundMusic.src = '/assets/duel-of-the-fates.mp3'
+backgroundMusic.volume = 0.15
+
 
 // ELEMENTS
 // Remember you replaced innerText with id in various locations, if you run into issues, locate them
@@ -8,9 +33,11 @@ const computerScoreCounter = document.getElementById('computer-score')
 const body = document.querySelector('body')
 const startButton = document.getElementById('start-game-button')
 startButton.disabled = true
+const volume = document.getElementById('unmute')
 const width = 10
 const cellCount = width * width
 const cellCount2 = width * width
+
 // GLOBAL VARIABLES
 
 // Arrays
@@ -46,13 +73,7 @@ let turnOnEnemyGrid = false
 let turnOnPlayerGrid = true
 let gameOver = false
 let computerHasHit = false
-
-// To Chop?
-// cells = document.querySelectorAll('.grid div')
-
-// const alreadyChosen = cellsAdjacent.some(
-//   index => cells[index].classList.contains('chosen'))
-
+let playing = false
 
 // Grid Creation
 function createGrid() {
@@ -65,7 +86,6 @@ function createGrid() {
     cells.push(cell)
     cell.addEventListener('mouseover', function () {
       globalIndexOfHoverCell = parseInt(this.id)
-      // console.log(cells[globalIndexOfHoverCell].classList.length === 0)
       if (rotate) {
         cellsAdjacent = [
           globalIndexOfHoverCell,
@@ -97,8 +117,6 @@ function createGrid() {
 createGrid()
 grid.style.border = ('5px solid #FFE81F')
 
-
-
 // Second Grid Creation
 function createGrid2() {
   for (let i = 0; i < cellCount2; i++) {
@@ -115,8 +133,6 @@ function createGrid2() {
   }
 }
 createGrid2()
-
-
 
 // Creates Hover Effect
 function hover() {
@@ -139,7 +155,6 @@ function clearHoverOfEnemy() {
   })
 }
 
-
 // Sets Bounds Detection for the Player and Pushes their ships into an Array
 function placeShip() {
   cells.forEach(cell => {
@@ -160,54 +175,38 @@ function placeShip() {
         (indexRow !== hoveredRow && (index < leftmostCellInRow || index > rightmostCellInRow))
       ) && rotate
     })
-
-
     if (outOfBoundsVertical) {
-      console.log('Out of Bounds Vertical')
     } else if (outOfBoundsHorizontal) {
-      console.log('Out of Bounds Horizontal')
     } else {
       const alreadyChosen = cellsAdjacent.some(
         index => cells[index].classList.contains('chosen'))
       if (alreadyChosen) {
-        console.log('Already chosen')
       } else {
         if (chosenShips.length === 4) {
           styleStartButton()
         } if (chosenShips.length === 5) {
-          console.log('All ships placed')
         } else {
-          console.log('All Good')
           const currentShip = []
           cellsAdjacent.forEach(index => {
             cells[index].classList.add('chosen')
             currentShip.push(parseInt(cells[index].id))
           })
           chosenShips.push(currentShip)
-
-          console.log('Player Chosen SHips', chosenShips[0],
-            chosenShips[1],
-            chosenShips[2],
-            chosenShips[3],
-            chosenShips[4])
+          placeSound.play()
         }
       }
     }
   }
 }
 
-
 // Allows Player to Rotate their Ship
 function rotateCellsAdjacent(evt) {
   const key = evt.code
   if (key === 'KeyR') {
     rotate = !rotate
-    console.log(rotate)
-
     cells[globalIndexOfHoverCell].dispatchEvent(new Event('mouseover'));
   }
 }
-
 
 // Lets the ships reduce in length, allowing you to place 5 in total
 function reduceLengthOfShip() {
@@ -223,13 +222,7 @@ function reduceLengthOfShip() {
   }
 }
 
-
-
-
 // COMPUTER BEHAVIOUR
-
-
-
 // Overall Function for placing their ships
 function aiPlaceShip() {
   getRandomDirection()
@@ -269,6 +262,7 @@ function aiCalculateAdjacentCells() {
     aiReduceLengthOfShip()
   }
 }
+
 // Allows 5 ships of decreasing lengths to be placed
 function aiReduceLengthOfShip() {
   if (aiChosenShips.length === 0) {
@@ -282,7 +276,6 @@ function aiReduceLengthOfShip() {
     aiCellsAdjacent.splice(2, 3)
   }
 }
-
 
 // Bounds Detection to prevent overlapping or spilling onto other rows
 function aiBoundsDetection() {
@@ -316,12 +309,6 @@ function aiBoundsDetection() {
           aiCurrentShip.push(parseInt(cells2[index].id))
         })
         aiChosenShips.push(aiCurrentShip)
-        console.log('AI Chosen SHips', aiChosenShips[0],
-          aiChosenShips[1],
-          aiChosenShips[2],
-          aiChosenShips[3],
-          aiChosenShips[4])
-        console.log(aiChosenShips)
       }
     }
   }
@@ -332,25 +319,22 @@ function aiBoundsDetection() {
 function clickEnemyCell() {
   if (turnOnEnemyGrid) {
     if (!gameOver) {
-      console.log(aiIndexOfHoverCell)
       const successfulHit = aiIndexOfHoverCell.some(index => cells2[index].classList.contains('ai-chosen'))
       const alreadySuccessfulHit = aiIndexOfHoverCell.some(index => cells2[index].classList.contains('hit'))
       const alreadyAMiss = aiIndexOfHoverCell.some(index => cells2[index].classList.contains('miss'))
       if (successfulHit) {
+        hitSound.play()
         enemyShipHit()
         if (gameOver) {
-          console.log('Game Over')
         } else {
           aiFires()
         }
       } else if (alreadyAMiss) {
-        console.log('This cell is already a miss, choose another')
       } else if (alreadySuccessfulHit) {
-        console.log('Cell already a hit, choose another')
       } else {
-        console.log(`Index ${aiIndexOfHoverCell} is a miss`)
         aiIndexOfHoverCell.forEach(index => {
           cells2[index].classList.add('miss')
+          missSound.play()
         })
         aiFires()
       }
@@ -358,20 +342,15 @@ function clickEnemyCell() {
   }
 }
 
-
 // Pushes hit cells into an array to check for fully sunk ships + stlying
 function enemyShipHit() {
-  console.log('Enemy Ship Hit')
   aiIndexOfHoverCell.forEach(index => {
     cells2[index].classList.add('hit')
     cells2[index].classList.remove('ai-chosen')
     aiHitCells.push(parseInt(cells2[index].id))
-    console.log(aiHitCells)
     checkForSunkShipsOfEnemy()
   })
 }
-
-
 
 // Checks to see if the values in the array match those of the cells the computer choose as ship placements
 function checkForSunkShipsOfEnemy() {
@@ -387,26 +366,22 @@ function checkForSunkShipsOfEnemy() {
       playerScoreCounter.innerText = playerCurrentScore
       aiArrayOfSunkShips.push(aiSunkShip)
       aiChosenShips.splice(index, 1)
+      sunkSound.play()
       checkWinner()
     }
   })
 }
 
-
-
 // Starts by choosing a random cell that hasn't already been chosen
 function aiFires() {
-  console.log('Enemy Has Fired')
   cellToHit = Math.floor(Math.random() * 100)
   const successfulHit = cells[cellToHit].classList.contains('chosen')
   const alreadySuccessfulHit = cells[cellToHit].classList.contains('hit')
   const alreadyAMiss = cells[cellToHit].classList.contains('miss')
 
   if (computerHasHit) {
-    console.log('Choosing Adjacant')
     runHorizontal()
   } else {
-    
     if (successfulHit) {
       cells[cellToHit].classList.add('hit')
       cells[cellToHit].classList.remove('chosen')
@@ -414,23 +389,16 @@ function aiFires() {
       checkForSunkShipsOfPlayer()
       initialHit = cellToHit
       computerHasHit = true
-
+      hitSound.play()
     } else if (alreadySuccessfulHit) {
       aiFires()
     } else if (alreadyAMiss) {
       aiFires()
     } else {
       cells[cellToHit].classList.add('miss')
-      if ((cellToHit - 11) >= 0) {
-        cellToHit -= 11
-      } else {
-        cellToHit = cellToHit
-      }
     }
   }
 }
-
-
 
 // Checks to see if the values stored in the hit cells array match those stored in the player's chosen ships array
 function checkForSunkShipsOfPlayer() {
@@ -447,12 +415,11 @@ function checkForSunkShipsOfPlayer() {
       computerScoreCounter.innerText = computerCurrentScore
       playerArrayOfSunkShips.push(playerSunkShip)
       playerShipsToBeRemoved.splice(index, 1)
+      sunkSound.play()
       checkWinner()
     }
   })
 }
-
-
 
 // Will search for cells to the right, and switch to left once it hits the end of a ship
 function runHorizontal() {
@@ -464,6 +431,7 @@ function runHorizontal() {
       cells[initialHit + 1].classList.add('hit')
       cells[initialHit + 1].classList.remove('chosen')
       playerHitCells.push(parseInt(cells[initialHit + 1].id))
+      hitSound.play()
       checkForSunkShipsOfPlayer()
     } else if (cells[initialHit + 1].classList.contains('hit')) {
       if ((initialHit + 2) > 99) {
@@ -474,6 +442,7 @@ function runHorizontal() {
           cells[initialHit + 2].classList.add('hit')
           cells[initialHit + 2].classList.remove('chosen')
           playerHitCells.push(parseInt(cells[initialHit + 2].id))
+          hitSound.play()
           checkForSunkShipsOfPlayer()
         } else if (cells[initialHit + 2].classList.contains('hit')) {
           if ((initialHit + 3) > 99) {
@@ -484,6 +453,7 @@ function runHorizontal() {
               cells[initialHit + 3].classList.add('hit')
               cells[initialHit + 3].classList.remove('chosen')
               playerHitCells.push(parseInt(cells[initialHit + 3].id))
+              hitSound.play()
               checkForSunkShipsOfPlayer()
             } else if (cells[initialHit + 3].classList.contains('hit')) {
               if ((initialHit + 4) > 99) {
@@ -494,6 +464,7 @@ function runHorizontal() {
                   cells[initialHit + 4].classList.add('hit')
                   cells[initialHit + 4].classList.remove('chosen')
                   playerHitCells.push(parseInt(cells[initialHit + 4].id))
+                  hitSound.play()
                   checkForSunkShipsOfPlayer()
                 } else if (cells[initialHit + 4].classList.contains('hit')) {
                   // Ignore it, this is another ship, too advanced
@@ -537,6 +508,7 @@ function runVertical() {
       cells[initialHit + 10].classList.add('hit')
       cells[initialHit + 10].classList.remove('chosen')
       playerHitCells.push(parseInt(cells[initialHit + 10].id))
+      hitSound.play()
       checkForSunkShipsOfPlayer()
     } else if (cells[initialHit + 10].classList.contains('hit')) {
       if ((initialHit + 20) > 99) {
@@ -547,6 +519,7 @@ function runVertical() {
           cells[initialHit + 20].classList.add('hit')
           cells[initialHit + 20].classList.remove('chosen')
           playerHitCells.push(parseInt(cells[initialHit + 20].id))
+          hitSound.play()
           checkForSunkShipsOfPlayer()
         } else if (cells[initialHit + 20].classList.contains('hit')) {
           if ((initialHit + 30) > 99) {
@@ -557,6 +530,7 @@ function runVertical() {
               cells[initialHit + 30].classList.add('hit')
               cells[initialHit + 30].classList.remove('chosen')
               playerHitCells.push(parseInt(cells[initialHit + 30].id))
+              hitSound.play()
               checkForSunkShipsOfPlayer()
             } else if (cells[initialHit + 30].classList.contains('hit')) {
               if ((initialHit + 40) > 99) {
@@ -567,6 +541,7 @@ function runVertical() {
                   cells[initialHit + 40].classList.add('hit')
                   cells[initialHit + 40].classList.remove('chosen')
                   playerHitCells.push(parseInt(cells[initialHit + 40].id))
+                  hitSound.play()
                   checkForSunkShipsOfPlayer()
                 } else if (cells[initialHit + 40].classList.contains('hit')) {
                   // Ignore it, this is another ship, too advanced
@@ -607,24 +582,28 @@ function trackUpFour() {
     cells[initialHit - 10].classList.add('hit')
     cells[initialHit - 10].classList.remove('chosen')
     playerHitCells.push(parseInt(cells[initialHit - 10].id))
+    hitSound.play()
     checkForSunkShipsOfPlayer()
   } else if (cells[initialHit - 10].classList.contains('hit')) {
     if (cells[initialHit - 20].classList.contains('chosen')) {
       cells[initialHit - 20].classList.add('hit')
       cells[initialHit - 20].classList.remove('chosen')
       playerHitCells.push(parseInt(cells[initialHit - 20].id))
+      hitSound.play()
       checkForSunkShipsOfPlayer()
     } else if (cells[initialHit - 20].classList.contains('hit')) {
       if (cells[initialHit - 30].classList.contains('chosen')) {
         cells[initialHit - 30].classList.add('hit')
         cells[initialHit - 30].classList.remove('chosen')
         playerHitCells.push(parseInt(cells[initialHit - 30].id))
+        hitSound.play()
         checkForSunkShipsOfPlayer()
       } else if (cells[initialHit - 30].classList.contains('hit')) {
         if (cells[initialHit - 40].classList.contains('chosen')) {
           cells[initialHit - 40].classList.add('hit')
           cells[initialHit - 40].classList.remove('chosen')
           playerHitCells.push(parseInt(cells[initialHit - 40].id))
+          hitSound.play()
           checkForSunkShipsOfPlayer()
         } else {
           computerHasHit = false
@@ -651,18 +630,21 @@ function trackUpThree() {
     cells[initialHit - 10].classList.add('hit')
     cells[initialHit - 10].classList.remove('chosen')
     playerHitCells.push(parseInt(cells[initialHit - 10].id))
+    hitSound.play()
     checkForSunkShipsOfPlayer()
   } else if (cells[initialHit - 10].classList.contains('hit')) {
     if (cells[initialHit - 20].classList.contains('chosen')) {
       cells[initialHit - 20].classList.add('hit')
       cells[initialHit - 20].classList.remove('chosen')
       playerHitCells.push(parseInt(cells[initialHit - 20].id))
+      hitSound.play()
       checkForSunkShipsOfPlayer()
     } else if (cells[initialHit - 20].classList.contains('hit')) {
       if (cells[initialHit - 30].classList.contains('chosen')) {
         cells[initialHit - 30].classList.add('hit')
         cells[initialHit - 30].classList.remove('chosen')
         playerHitCells.push(parseInt(cells[initialHit - 30].id))
+        hitSound.play()
         checkForSunkShipsOfPlayer()
       } else {
         computerHasHit = false
@@ -684,12 +666,14 @@ function trackUpTwo() {
     cells[initialHit - 10].classList.add('hit')
     cells[initialHit - 10].classList.remove('chosen')
     playerHitCells.push(parseInt(cells[initialHit - 10].id))
+    hitSound.play()
     checkForSunkShipsOfPlayer()
   } else if (cells[initialHit - 10].classList.contains('hit')) {
     if (cells[initialHit - 20].classList.contains('chosen')) {
       cells[initialHit - 20].classList.add('hit')
       cells[initialHit - 20].classList.remove('chosen')
       playerHitCells.push(parseInt(cells[initialHit - 20].id))
+      hitSound.play()
       checkForSunkShipsOfPlayer()
     } else {
       computerHasHit = false
@@ -706,6 +690,7 @@ function trackUpOne() {
     cells[initialHit - 10].classList.add('hit')
     cells[initialHit - 10].classList.remove('chosen')
     playerHitCells.push(parseInt(cells[initialHit - 10].id))
+    hitSound.play()
     checkForSunkShipsOfPlayer()
   } else {
     computerHasHit = false
@@ -720,6 +705,7 @@ function trackLeftOne() {
     cells[initialHit - 1].classList.add('hit')
     cells[initialHit - 1].classList.remove('chosen')
     playerHitCells.push(parseInt(cells[initialHit - 1].id))
+    hitSound.play()
     checkForSunkShipsOfPlayer()
   } else {
     runVertical()
@@ -731,12 +717,14 @@ function trackLeftTwo() {
     cells[initialHit - 1].classList.add('hit')
     cells[initialHit - 1].classList.remove('chosen')
     playerHitCells.push(parseInt(cells[initialHit - 1].id))
+    hitSound.play()
     checkForSunkShipsOfPlayer()
   } else if (cells[initialHit - 1].classList.contains('hit')) {
     if (cells[initialHit - 2].classList.contains('chosen')) {
       cells[initialHit - 2].classList.add('hit')
       cells[initialHit - 2].classList.remove('chosen')
       playerHitCells.push(parseInt(cells[initialHit - 2].id))
+      hitSound.play()
       checkForSunkShipsOfPlayer()
     } else {
       runVertical()
@@ -753,18 +741,21 @@ function trackLeftThree() {
     cells[initialHit - 1].classList.add('hit')
     cells[initialHit - 1].classList.remove('chosen')
     playerHitCells.push(parseInt(cells[initialHit - 1].id))
+    hitSound.play()
     checkForSunkShipsOfPlayer()
   } else if (cells[initialHit - 1].classList.contains('hit')) {
     if (cells[initialHit - 2].classList.contains('chosen')) {
       cells[initialHit - 2].classList.add('hit')
       cells[initialHit - 2].classList.remove('chosen')
       playerHitCells.push(parseInt(cells[initialHit - 2].id))
+      hitSound.play()
       checkForSunkShipsOfPlayer()
     } else if (cells[initialHit - 2].classList.contains('hit')) {
       if (cells[initialHit - 3].classList.contains('chosen')) {
         cells[initialHit - 3].classList.add('hit')
         cells[initialHit - 3].classList.remove('chosen')
         playerHitCells.push(parseInt(cells[initialHit - 3].id))
+        hitSound.play()
         checkForSunkShipsOfPlayer()
       } else {
         runVertical()
@@ -783,24 +774,28 @@ function trackLeftFour() {
     cells[initialHit - 1].classList.add('hit')
     cells[initialHit - 1].classList.remove('chosen')
     playerHitCells.push(parseInt(cells[initialHit - 1].id))
+    hitSound.play()
     checkForSunkShipsOfPlayer()
   } else if (cells[initialHit - 1].classList.contains('hit')) {
     if (cells[initialHit - 2].classList.contains('chosen')) {
       cells[initialHit - 2].classList.add('hit')
       cells[initialHit - 2].classList.remove('chosen')
       playerHitCells.push(parseInt(cells[initialHit - 2].id))
+      hitSound.play()
       checkForSunkShipsOfPlayer()
     } else if (cells[initialHit - 2].classList.contains('hit')) {
       if (cells[initialHit - 3].classList.contains('chosen')) {
         cells[initialHit - 3].classList.add('hit')
         cells[initialHit - 3].classList.remove('chosen')
         playerHitCells.push(parseInt(cells[initialHit - 3].id))
+        hitSound.play()
         checkForSunkShipsOfPlayer()
       } else if (cells[initialHit - 3].classList.contains('hit')) {
         if (cells[initialHit - 4].classList.contains('chosen')) {
           cells[initialHit - 4].classList.add('hit')
           cells[initialHit - 4].classList.remove('chosen')
           playerHitCells.push(parseInt(cells[initialHit - 4].id))
+          hitSound.play()
           checkForSunkShipsOfPlayer()
         } else {
           runVertical()
@@ -840,6 +835,8 @@ function checkWinner() {
     body.style.backgroundPosition = "center"
     body.style.backgroundRepeat = "no-repeat"
     body.style.backgroundSize = "cover"
+    victoryMusic.play()
+    backgroundMusic.pause()
 
   } else if (computerCurrentScore === 5) {
     gameOver = true
@@ -847,6 +844,8 @@ function checkWinner() {
     body.style.backgroundPosition = "center"
     body.style.backgroundRepeat = "no-repeat"
     body.style.backgroundSize = "cover"
+    defeatMusic.play()
+    backgroundMusic.pause()
     cells2.forEach(cell => {
       if (cell.classList.contains('ai-chosen')) {
         cell.classList.remove('ai-chosen')
@@ -870,9 +869,20 @@ startButton.addEventListener('click', function () {
   turnOnPlayerGrid = false
   turnOnEnemyGrid = true
   removeStartButton()
+  startGameSound.play()
   grid2.style.border = ('5px solid #FFE81F')
   grid.style.border = ('')
   startButton.disabled = true
 })
 
-
+volume.addEventListener('click', function () {
+  if (!playing) {
+    backgroundMusic.play()
+    volume.src = './assets/mute.png'
+    playing = true
+  } else if (playing) {
+    backgroundMusic.pause()
+    volume.src = './assets/unmute.png'
+    playing = false
+  }
+})

@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  
 <head>
   <meta charset="utf-8">
   <title>BattleShips</title>
   <link rel="stylesheet" href="styles/main.css">
   <script defer src="scripts/app.js" charset="utf-8"></script>
 </head>
-
 <body>
   <header><img src="./assets/star-conflict.logo.png"></header>
   <main class="grid-container">
@@ -15,12 +13,12 @@
     <section class="grid grid2"></section>
   </main>
   <article class="scores-container">
-    <p id="player-score">0</p>
-    <p id="computer-score">0</p>
+    <p>Player Score: <span id="player-score">0</span>/5</p>
+    <p>Computer Score: <span id="computer-score">0</span>/5</p>
   </article>
-  <button id="start-game-button">Start Game</button>
+  <article class="lower-container">
+    <button id="start-game-button">Start Game</button>
+    <img id="unmute" src="./assets/unmute.png">
+  </article>
 </body>
-
 </html>
-
-
