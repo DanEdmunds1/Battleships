@@ -1,0 +1,4 @@
+[ZoneTransfer]
+ZoneId=3
+ReferrerUrl=https://cloudconvert.com/
+HostUrl=https://eu-central.storage.cloudconvert.com/tasks/0f653087-73ca-4963-bd57-ec08b52b31aa/enemy-ship.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=cloudconvert-production%2F20231109%2Ffra%2Fs3%2Faws4_request&X-Amz-Date=20231109T123503Z&X-Amz-Expires=86400&X-Amz-Signature=136f9bbce3f796dff29491e80df79cb1da797bace6f9f0517bf070392ec3a88b&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3D%22enemy-ship.png%22&response-content-type=image%2Fpng&x-id=GetObject

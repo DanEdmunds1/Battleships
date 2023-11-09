@@ -8,25 +8,38 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: url('../assets/Main\ Background.png');
+  background: url('../assets/background.png');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
   height: 100vh;
 }
 
+header {
+  display: flex;
+  align-items: center;
+  font-family: 'Press+Start+2P';
+  height: 10vh;
+  margin-top: 5em;
+}
+
+header img {
+  height: 20vh;
+}
+
 .grid-container {
   display: flex;
-  margin: 10em 0 1em 0;
+  margin: 5em 0 1em 0;
   justify-content: space-around;
   align-items: center;
 
 }
 
 .grid {
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
-  width: 350px;
+  width: 380px;
   margin: 0 40px 0 40px;
+  border: 5px solid black;
+  background-color: rgba(255, 255, 255, 0.3);
 
 }
 
@@ -52,16 +65,9 @@ p {
   background-color: transparent;
   width: 10em;
   height: 4em;
-  color: white;
-  border: 1px solid white
+  color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.7)
   
-  
-}
-
-#start-game-button:active {
-  top: 2px;
-  left: 1px;
-  box-shadow: none;
 }
 
 .scores-container {
@@ -70,18 +76,20 @@ p {
   width: 100%
 }
 
-
 .hovered {
   background-color: rgba(11, 25, 231, 0.7);
 }
 
 .chosen {
-  background-color: rgb(47, 249, 36, 0.7);
+  background: url('/assets/venator.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
+
 
 .ai-chosen {
   background-color: transparent;
-  /* background-color: purple; */
 }
 
 .miss {
@@ -93,9 +101,16 @@ p {
 }
 
 .sunk {
-  background-color: rgb(202, 184, 24);
+  background: url('/assets/explosion.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+
 }
 
 .revealed {
-  background-color: purple;
+  background: url('/assets/enemy-ship.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }

@@ -95,6 +95,7 @@ function createGrid() {
   }
 }
 createGrid()
+grid.style.border = ('5px solid #FFE81F')
 
 
 
@@ -172,9 +173,7 @@ function placeShip() {
         console.log('Already chosen')
       } else {
         if (chosenShips.length === 4) {
-          console.log('start button enabled')
-          startButton.disabled = false
-          startButton.style.cursor = "pointer"
+          styleStartButton()
         } if (chosenShips.length === 5) {
           console.log('All ships placed')
         } else {
@@ -819,6 +818,19 @@ function trackLeftFour() {
   }
 }
 
+function styleStartButton() {
+  startButton.disabled = false
+  startButton.style.cursor = "pointer"
+  startButton.style.color = ('#FFE81F')
+  startButton.style.fontSize = ('large')
+  startButton.style.backgroundColor = ('rgba(0, 0, 0, 0.5)')
+  startButton.style.borderColor = ('#FFE81F')
+  startButton.style.borderWidth = ('thick')
+}
+
+function removeStartButton() {
+  startButton.style.visibility = ('hidden')
+}
 
 // Checks if all ships have been sunk
 function checkWinner() {
@@ -857,6 +869,9 @@ startButton.addEventListener('click', function () {
   startButton.style.cursor = ""
   turnOnPlayerGrid = false
   turnOnEnemyGrid = true
+  removeStartButton()
+  grid2.style.border = ('5px solid #FFE81F')
+  grid.style.border = ('')
   startButton.disabled = true
 })
 
