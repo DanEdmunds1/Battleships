@@ -824,14 +824,14 @@ function trackLeftFour() {
 function checkWinner() {
   if (playerCurrentScore === 5) {
     gameOver = true
-    body.style.background = "url('../assets/Victory\ background.png')"
+    body.style.background = "url('./assets/Victory\ background.png')"
     body.style.backgroundPosition = "center"
     body.style.backgroundRepeat = "no-repeat"
     body.style.backgroundSize = "cover"
 
   } else if (computerCurrentScore === 5) {
     gameOver = true
-    body.style.background = "url('../assets/defeat-background.png')"
+    body.style.background = "url('./assets/defeat-background.png')"
     body.style.backgroundPosition = "center"
     body.style.backgroundRepeat = "no-repeat"
     body.style.backgroundSize = "cover"
