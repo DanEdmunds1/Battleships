@@ -832,11 +832,11 @@ function removeStartButton() {
 function checkWinner() {
   if (playerCurrentScore === 5) {
     gameOver = true
-    body.style.background = "url('./assets/Victory\ background.png')"
+    body.style.background = "url('./assets/victory-background.png')"
     body.style.backgroundPosition = "center"
     body.style.backgroundRepeat = "no-repeat"
     body.style.backgroundSize = "cover"
-    headerImg.src = "url('./assets/victory-message.png')"
+    headerImg.src = "./assets/victory-message.png"
     headerImg.style.backgroundPosition = "center"
     headerImg.style.backgroundRepeat = "no-repeat"
     headerImg.style.backgroundSize = "cover"
@@ -865,8 +865,6 @@ function checkWinner() {
     })
   }
 }
-
-
 
 // EVENTS
 document.addEventListener('keydown', rotateCellsAdjacent)
