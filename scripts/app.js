@@ -31,6 +31,7 @@ const grid2 = document.querySelector('.grid2')
 const playerScoreCounter = document.getElementById('player-score')
 const computerScoreCounter = document.getElementById('computer-score')
 const body = document.querySelector('body')
+const headerImg = document.getElementById('header-img')
 const startButton = document.getElementById('start-game-button')
 startButton.disabled = true
 const volume = document.getElementById('unmute')
@@ -835,6 +836,11 @@ function checkWinner() {
     body.style.backgroundPosition = "center"
     body.style.backgroundRepeat = "no-repeat"
     body.style.backgroundSize = "cover"
+    headerImg.src = "url('./assets/victory-message.png')"
+    headerImg.style.backgroundPosition = "center"
+    headerImg.style.backgroundRepeat = "no-repeat"
+    headerImg.style.backgroundSize = "cover"
+    headerImg.style.height = "20vh"
     victoryMusic.play()
     backgroundMusic.pause()
 
@@ -844,6 +850,11 @@ function checkWinner() {
     body.style.backgroundPosition = "center"
     body.style.backgroundRepeat = "no-repeat"
     body.style.backgroundSize = "cover"
+    headerImg.src = "./assets/defeat-message.png"
+    headerImg.style.backgroundPosition = "center"
+    headerImg.style.backgroundRepeat = "no-repeat"
+    headerImg.style.backgroundSize = "cover"
+    headerImg.style.height = "20vh"
     defeatMusic.play()
     backgroundMusic.pause()
     cells2.forEach(cell => {
@@ -854,6 +865,7 @@ function checkWinner() {
     })
   }
 }
+
 
 
 // EVENTS

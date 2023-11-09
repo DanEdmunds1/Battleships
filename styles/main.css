@@ -24,7 +24,8 @@ header {
 }
 
 header img {
-  height: 20vh;
+  height: auto;
+  max-width: 100%
 }
 
 .grid-container {
@@ -86,8 +87,24 @@ p {
   width: 100%
 }
 
+#you {
+  color: #FFE81F;
+}
+#player-score {
+  color: white;
+}
+
+#bot {
+  color: white
+}
+#computer-score {
+  color: red
+}
+
+
+
 .hovered {
-  background-color: rgba(11, 25, 231, 0.7);
+  background-color: rgba(255, 232, 31, 0.7);
 }
 
 .chosen {

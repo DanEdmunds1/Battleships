@@ -7,14 +7,14 @@
   <script defer src="scripts/app.js" charset="utf-8"></script>
 </head>
 <body>
-  <header><img src="./assets/star-conflict.logo.png"></header>
+  <header><img id="header-img" src="./assets/star-conflict.logo.png"></header>
   <main class="grid-container">
     <section class="grid"></section>
     <section class="grid grid2"></section>
   </main>
   <article class="scores-container">
-    <p>Player Score: <span id="player-score">0</span>/5</p>
-    <p>Computer Score: <span id="computer-score">0</span>/5</p>
+    <p id="you">Player Score: <span id="player-score">0</span>/5</p>
+    <p id="bot">Computer Score: <span id="computer-score">0</span>/5</p>
   </article>
   <article class="lower-container">
     <button id="start-game-button">Start Game</button>
