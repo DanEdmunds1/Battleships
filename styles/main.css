@@ -91,7 +91,7 @@ p {
 }
 
 .chosen {
-  background: url('/assets/venator.png');
+  background: url('../assets/venator.png');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -110,7 +110,7 @@ p {
 }
 
 .sunk {
-  background: url('/assets/explosion.png');
+  background: url('../assets/explosion.png');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -118,7 +118,7 @@ p {
 }
 
 .revealed {
-  background: url('/assets/enemy-ship.png');
+  background: url('../assets/enemy-ship.png');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;

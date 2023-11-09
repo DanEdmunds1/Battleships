@@ -1,26 +1,26 @@
 // Sounds
 const missSound = new Audio()
-missSound.src = '/assets/miss-sound.mp3'
+missSound.src = './assets/miss-sound.mp3'
 missSound.volume = 0.1
 const sunkSound = new Audio()
-sunkSound.src = '/assets/sunk-sound.mp3'
+sunkSound.src = './assets/sunk-sound.mp3'
 sunkSound.volume = 0.05
 const hitSound = new Audio()
-hitSound.src = '/assets/hit-sound.mp3'
+hitSound.src = './assets/hit-sound.mp3'
 hitSound.volume = 0.2
 const placeSound = new Audio()
-placeSound.src = '/assets/place-sound.mp3'
+placeSound.src = './assets/place-sound.mp3'
 const victoryMusic = new Audio()
-victoryMusic.src = '/assets/victory-music.mp3'
+victoryMusic.src = './assets/victory-music.mp3'
 victoryMusic.volume = 0.05
 const defeatMusic = new Audio()
-defeatMusic.src = '/assets/defeat-music.mp3'
+defeatMusic.src = './assets/defeat-music.mp3'
 defeatMusic.volume = 0.1
 const startGameSound = new Audio()
-startGameSound.src = '/assets/start-game-sound.mp3'
+startGameSound.src = './assets/start-game-sound.mp3'
 startGameSound.volume = 0.1
 const backgroundMusic = new Audio()
-backgroundMusic.src = '/assets/duel-of-the-fates.mp3'
+backgroundMusic.src = './assets/duel-of-the-fates.mp3'
 backgroundMusic.volume = 0.15
 
 
