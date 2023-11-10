@@ -12,18 +12,19 @@ TECHNOLOGIES USED: HTML, CSS, Javascript
 PROJECT BRIEF:
 Battleships is a two-player game where each player covertly lays out their armada of ships on a game board. Each player then takes turns attempting to hit their opponent's ships by torpedoing specific squares hoping to hit an opponent's ship.
 The winner is the player that sinks all the opponent's ships.
-## Requirements
+Requirements:
 * The game should be one player, with the computer placing its pieces randomly at the start of the game
 * The computer should be able to make random attacks on the player's board
-## Suggested enhancements
+Suggested enhancements:
 * Responsive design
 * More intelligent attacks by the computer
-## Challenges
+Challenges:
 The biggest challenge here is the computer's moves. Firstly the ships need to be randomly placed, but without touching or overlapping, which requires a considerable amount of logic and recursion. Secondly when the computer attacks the player's board, if it hits a ship, it should try to hit adjacent squares in all directions until it has established that the ship has been sunk.
 
 PLANNING: 
 I started by drawing up a simple wireframe sketch which included two grids (one for the player's ships and another for the computer's), a start button, and the scores. I would later add a mute and unmute button for the background music, and a header to make the game look better.
-## Pseudocode
+
+Pseudocode:
 Placing Ships: The Player
 * The player has a 10 x 10 grid generated in JS
 * The cell a player hovers their mouse over will receive the class of ‘hovered’ as will the x number of cells above this one
