@@ -1,27 +1,40 @@
 # Battleships
 
-DESCRIPTION:
-This is the first project I completed as part of the Software Engineering Immersive program with General Assembly, taking place between 03/11/23 and 10/11/23.  The project brief required that I use JS, CSS, and HTML to create a classic arcade-style game from a choice of 10 options, from which I chose to create ‘Battleship’. 
-
-DEPLOYMENT LINK: https://danedmunds1.github.io/Battleships/
-
-TIMEFRAME: This was an independent project, the timeframe for which was seven days.
-
-TECHNOLOGIES USED: HTML, CSS, Javascript
-
-PROJECT BRIEF:
+# DESCRIPTION
+This is the first project I completed as part of the Software Engineering Immersive program at General Assembly, taking place between 03/11/23 and 10/11/23.  The project brief required that I use JS, CSS, and HTML to create a classic arcade-style game from a choice of 10 options, from which I chose to create ‘Battleships’.
 Battleships is a two-player game where each player covertly lays out their armada of ships on a game board. Each player then takes turns attempting to hit their opponent's ships by torpedoing specific squares hoping to hit an opponent's ship.
-The winner is the player that sinks all the opponent's ships.
-Requirements:
+The winner is the player that sinks all the opponent's ships. 
+
+
+# DEPLOYMENT LINK: https://danedmunds1.github.io/Battleships/
+
+# TIMEFRAME: This was an independent project, the timeframe for which was seven days.
+
+# TECHNOLOGIES USED: HTML, CSS, Javascript
+
+# PROJECT BRIEF
+Technical Requirements:
+* Render a game in a browser
+* The game must be built on a grid without using HTML Canvas
+* Must design logic for winning & visually display which player won
+* Include separate HTML / CSS / JavaScript files
+* Stick with KISS (Keep It Simple Stupid) and DRY (Don't Repeat Yourself) principles
+* Use JavaScript for DOM manipulation
+* Deploy your game online
+* Use semantic markup for HTML and CSS
+
+Necessary Deliverables:
+* A working game, built by you, hosted somewhere on the internet
+* A link to your hosted working game in the URL section of your Github repo
+* A git repository hosted on Github, with a link to your hosted game, and frequent commits dating back to the very beginning of the project
+* A readme.md file with explanations of the technologies used, the approach taken, installation instructions, unsolved problems, etc. (completed post project)
+
+Game-Specific Requirements:
 * The game should be one player, with the computer placing its pieces randomly at the start of the game
 * The computer should be able to make random attacks on the player's board
-Suggested enhancements:
-* Responsive design
-* More intelligent attacks by the computer
-Challenges:
-The biggest challenge here is the computer's moves. Firstly the ships need to be randomly placed, but without touching or overlapping, which requires a considerable amount of logic and recursion. Secondly when the computer attacks the player's board, if it hits a ship, it should try to hit adjacent squares in all directions until it has established that the ship has been sunk.
 
-PLANNING: 
+
+# PLANNING
 I started by drawing up a simple wireframe sketch which included two grids (one for the player's ships and another for the computer's), a start button, and the scores. I would later add a mute and unmute button for the background music, and a header to make the game look better.
 
 Pseudocode:
@@ -70,7 +83,7 @@ Playing the Game: The Computer
   searching
 * If the computer reaches 5 points, then the game will be over, and the computer will win
 
-BUILD PROCESS:
+# BUILD PROCESS
 I started by using JS to create grid divs in a 10 x 10 format, numbering each div from 0 to 99. As this was to be the player’s grid, upon which they would be able to place their ships I added event listeners for ‘mouseover’ and ‘click’ for every cell. In order to incorporate elements of responsive design into my project, I decided to include some hover effects to the grid, which highlights the cells upon which the player would be placing their ship if they were to click. Once they click and place their ship, the highlighted cells will reduce in length, allowing players to place ships of varying lengths, just as they would be able to do in the real game.
 
 function reduceLengthOfShip() {
@@ -142,18 +155,18 @@ if (cells[initialHit + 3].classList.contains('chosen')) {
               cells[initialHit + 3].classList.add('miss')
             }
 
-CHALLENGES:
+# CHALLENGES
 The most challenging part of this project was getting the logic right for how the computer chooses which cells to select after it hits a player’s ship. It was challenging because it required a lot of nested conditionals that became confusing. The first draft of this was not very effective and allowed the computer to give up if it hit the end of a ship without sinking it (which would occur if the initial hit was in the middle of the ship). Then I rewrote the entire logic to allow the computer to make smarter decisions and follow a ship to either end until it is sunk. After that, I included more conditionals that handled the scenarios in which the computer tried to access information on cells that did not exist/were out-of-bounds to the grid.
 
-WINS:
-A major win was overcoming the challenge of the computer logic for following a ship it has hit until it is fully sunk, it took the most time and a lot of notetaking, backtracking, and problem-solving.
-Another win was styling as each time I ran into an issue I knew how to fix it, which was great to see as it meant I had retained knowledge of CSS from the first week of the program and it wasn't pushed out by Javascript information.
+# Wins
+A major win was overcoming the challenge of the computer logic for following a ship it has hit until it is fully sunk. This took the most time and required a lot of notetaking, backtracking, and problem-solving.
+Another win was styling as each time I ran into an issue I knew how to fix it, which was great to see as it meant I had retained knowledge of CSS from the first week of the program and it wasn't pushed out by JavaScript information.
 
-KEY LEARNINGS / TAKEAWAYS:
+# Key Learnings/Takeaways
 This project gave me a great opportunity to become more familiar with functions, global variables, and scope. As a result, I feel more comfortable using them and I was able to better fix issues surrounding them when things in my game did not work. I also feel more comfortable with using nested if statements as I spent an entire two days using them to get the computer logic working the way I wanted it to.
 
-BUGS:
+# Bugs
 There is a very specific scenario in which the computer will stop placing its pieces but I know how to fix it. If the player places a ship in a horizontal alignment in the top left corner, and the computer hits it in any of the centre cells (which is to say not the first or last cell of the ship), then if the computer guesses to the left, hitting cell 0, it will look for cell -1, which of course does not exist. To fix this I could wrap the computer's logic in an if statement checking if the cell they are looking for exists first. I did this for the vertical alignment because it had a higher chance of going out-of-bounds, but not for the horizontal alignment.
 
-FUTURE IMPROVEMENTS:
-In the game’s current state, if the player has placed multiple vertical ships next to each other, the computer will land on a cell at some point and run across these ships horizontally. Once this horizontal line is complete, no ship will be sunk but the computer will give up trying to look for the rest of the cells above or below this line it has created. If a human player encountered this issue they would know that such a line without a sunk ship would mean that their opponent has placed all his ships in one block, but it has been a struggle to convey this to the computer’s logic. This is an area for future improvement
+# Future Improvements
+In the game’s current state, if the player has placed multiple vertical ships next to each other, the computer will land on a cell at some point and run across these ships horizontally. Once this horizontal line is complete, no ship will be sunk but the computer will give up trying to look for the rest of the cells above or below this line it has created. If a human player encountered this issue they would know that such a line without a sunk ship would mean that their opponent has placed all his ships in one block, but it has been a struggle to convey this to the computer’s logic. Therefore, improving the computer’s ship-tracking logic would be an attainable future improvement.
