@@ -1,19 +1,22 @@
 # Battleships
 
-# DESCRIPTION
+# Description
 This is the first project I completed as part of the Software Engineering Immersive program at General Assembly, taking place between 03/11/23 and 10/11/23.  The project brief required that I use JS, CSS, and HTML to create a classic arcade-style game from a choice of 10 options, from which I chose to create ‘Battleships’.
 Battleships is a two-player game where each player covertly lays out their armada of ships on a game board. Each player then takes turns attempting to hit their opponent's ships by torpedoing specific squares hoping to hit an opponent's ship.
 The winner is the player that sinks all the opponent's ships. 
 
 
-# DEPLOYMENT LINK: https://danedmunds1.github.io/Battleships/
+# Deployment Link
+https://danedmunds1.github.io/Battleships/
 
-# TIMEFRAME: This was an independent project, the timeframe for which was seven days.
+# imeframe
+This was an independent project, the timeframe for which was seven days.
 
-# TECHNOLOGIES USED: HTML, CSS, Javascript
+# Technologies
+HTML, CSS, Javascript
 
-# PROJECT BRIEF
-Technical Requirements:
+# Project Nrief
+## Technical Requirements:
 * Render a game in a browser
 * The game must be built on a grid without using HTML Canvas
 * Must design logic for winning & visually display which player won
@@ -23,22 +26,22 @@ Technical Requirements:
 * Deploy your game online
 * Use semantic markup for HTML and CSS
 
-Necessary Deliverables:
+## Necessary Deliverables:
 * A working game, built by you, hosted somewhere on the internet
 * A link to your hosted working game in the URL section of your Github repo
 * A git repository hosted on Github, with a link to your hosted game, and frequent commits dating back to the very beginning of the project
 * A readme.md file with explanations of the technologies used, the approach taken, installation instructions, unsolved problems, etc. (completed post project)
 
-Game-Specific Requirements:
+## Game-Specific Requirements:
 * The game should be one player, with the computer placing its pieces randomly at the start of the game
 * The computer should be able to make random attacks on the player's board
 
 
-# PLANNING
+# Planning
 I started by drawing up a simple wireframe sketch which included two grids (one for the player's ships and another for the computer's), a start button, and the scores. I would later add a mute and unmute button for the background music, and a header to make the game look better.
 
-Pseudocode:
-Placing Ships: The Player
+## Pseudocode:
+### Placing Ships: The Player
 * The player has a 10 x 10 grid generated in JS
 * The cell a player hovers their mouse over will receive the class of ‘hovered’ as will the x number of cells above this one
 * X being whichever ship is being placed (5, 4, 3, 3, 2)
@@ -50,7 +53,7 @@ Placing Ships: The Player
 * Once a ship has been placed, the length should become 4 cells, then 3, then 3 again, and finally 2
 * Once 5 successful placements of the ships have been made, the game will start
 
-Playing the Game: The Player
+### Playing the Game: The Player
 * The AI will choose its own ship placement abiding by the same parameters as the player
 * Select a random cell
 * If cell - width, cell - width * 2, cell - width * 3 → all available, then place
@@ -65,14 +68,14 @@ Playing the Game: The Player
   have the class of ‘hit’, then a point is awarded
 * Once 5 five points have been earned, the game will be over and the player will win
 
-Placing Ships: The Computer
+### Placing Ships: The Computer
 * Start each ship placement with a random choice between vertical and horizontal alignment
 * Then choose a random cell on the grid
 * If the cell passes parameters pertaining to the length of the ship and the available cells, then place and move on
 * Else choose another cell
 * Once parameters are met and the ship is placed, move to the next until all are placed
 
-Playing the Game: The Computer
+### Playing the Game: The Computer
 * Tell the computer to start by choosing a random cell in the grid
 * If it misses, choose the cell diagonally up and left of the missing cell
 * If that cell does not exist or is occupied with a ‘hit’ class cell, choose a random cell again
@@ -83,9 +86,10 @@ Playing the Game: The Computer
   searching
 * If the computer reaches 5 points, then the game will be over, and the computer will win
 
-# BUILD PROCESS
+# Build Process
 I started by using JS to create grid divs in a 10 x 10 format, numbering each div from 0 to 99. As this was to be the player’s grid, upon which they would be able to place their ships I added event listeners for ‘mouseover’ and ‘click’ for every cell. In order to incorporate elements of responsive design into my project, I decided to include some hover effects to the grid, which highlights the cells upon which the player would be placing their ship if they were to click. Once they click and place their ship, the highlighted cells will reduce in length, allowing players to place ships of varying lengths, just as they would be able to do in the real game.
 
+```
 function reduceLengthOfShip() {
   if (chosenShips.length === 0) {
   } else if (chosenShips.length === 1) {
@@ -98,11 +102,14 @@ function reduceLengthOfShip() {
     cellsAdjacent.splice(2, 3)
   }
 }
+```
+
 
 The computer will place its ships when the start button is clicked, and then the player can select any cell on the computer's grid. Each hit they hit a ship it will turn red and the code will check if the entire ship has been sunk. 
 
 This function is responsible for checking for sunk ships. It will run a loop over the array of arrays that contain each chosen ship of the computer. It will check whether every cell in the current ship’s array has been hit. If so it will give all cells in that array the class of ‘sunk’, and push the same values into an array to be stored in another array that tracks which ships have been sunk. It will also update the scores and check to see if either the player or the computer has won the game.
 
+```
 function checkForSunkShipsOfEnemy() {
   aiChosenShips.forEach((ship, index) => {
     const allCellsHit = ship.every(cell => aiHitCells.includes(parseInt(cell)))
@@ -120,9 +127,11 @@ function checkForSunkShipsOfEnemy() {
     }
   })
 }
+```
 
 The computer will select cells on the player's grid at random until it hits a ship. At this point, it will stop guessing randomly and check the cells immediately to the left and right of the hit cell. If both of these are misses then it will guess vertically. Once it hits another cell immediately adjacent it will continue in that direction until it reaches the end of the ship. If the ship is not fully sunk it will double back to the other side.
 
+```
 if (cells[initialHit + 3].classList.contains('chosen')) {
               cells[initialHit + 3].classList.add('hit')
               cells[initialHit + 3].classList.remove('chosen')
@@ -154,8 +163,9 @@ if (cells[initialHit + 3].classList.contains('chosen')) {
             } else {
               cells[initialHit + 3].classList.add('miss')
             }
+```
 
-# CHALLENGES
+# Challenges
 The most challenging part of this project was getting the logic right for how the computer chooses which cells to select after it hits a player’s ship. It was challenging because it required a lot of nested conditionals that became confusing. The first draft of this was not very effective and allowed the computer to give up if it hit the end of a ship without sinking it (which would occur if the initial hit was in the middle of the ship). Then I rewrote the entire logic to allow the computer to make smarter decisions and follow a ship to either end until it is sunk. After that, I included more conditionals that handled the scenarios in which the computer tried to access information on cells that did not exist/were out-of-bounds to the grid.
 
 # Wins
