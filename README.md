@@ -9,13 +9,13 @@ The winner is the player that sinks all the opponent's ships.
 # Deployment Link
 https://danedmunds1.github.io/Battleships/
 
-# imeframe
+# Timeframe
 This was an independent project, the timeframe for which was seven days.
 
 # Technologies
 HTML, CSS, Javascript
 
-# Project Nrief
+# Project Brief
 ## Technical Requirements:
 * Render a game in a browser
 * The game must be built on a grid without using HTML Canvas
